@@ -89,7 +89,10 @@ bool CSynthesizer::Generate(double * frame)
         m_currentNote++;
     }
 
-	recording->Start();
+	if(recording != NULL)
+	{
+		recording->Start();
+	}
 
     //
     // Phase 2: Clear all channels to silence 
@@ -101,11 +104,14 @@ bool CSynthesizer::Generate(double * frame)
     }
 
 	//Do recorded first
-	recording->Generate();
-	for(int c=0;  c<GetNumChannels();  c++)
-    {
-		frame[c] += recording->Frame(c);
-    }
+	if(recording != NULL)
+	{
+		recording->Generate();
+		for(int c=0;  c<GetNumChannels();  c++)
+		{
+			frame[c] += recording->Frame(c);
+		}
+	}
 
     //
     // Phase 3: Play an active instruments
