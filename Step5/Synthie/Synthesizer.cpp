@@ -20,11 +20,14 @@ CSynthesizer::CSynthesizer(void)
 	m_bpm = 120;
 	m_secperbeat = 0.5;
 	m_beatspermeasure = 4;
+	recording = NULL;
 }
 
 
 CSynthesizer::~CSynthesizer(void)
 {
+	if(recording != NULL)
+		delete recording;
 }
 
 //! Start the synthesizer
@@ -86,6 +89,8 @@ bool CSynthesizer::Generate(double * frame)
         m_currentNote++;
     }
 
+	recording->Start();
+
     //
     // Phase 2: Clear all channels to silence 
     //
@@ -93,6 +98,13 @@ bool CSynthesizer::Generate(double * frame)
     for(int c=0;  c<GetNumChannels();  c++)
     {
         frame[c] = 0;
+    }
+
+	//Do recorded first
+	recording->Generate();
+	for(int c=0;  c<GetNumChannels();  c++)
+    {
+		frame[c] += recording->Frame(c);
     }
 
     //
@@ -137,6 +149,8 @@ bool CSynthesizer::Generate(double * frame)
         // Move to the next instrument in the list
         node = next;
     }
+
+	
 
 	//
     // Phase 4: Advance the time and beats

@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include "Instrument.h"
+#include "RecordedInstrument.h"
 #include "Note.h"
 
 class CSynthesizer
@@ -44,6 +45,7 @@ private:
 	double m_time;
 
     std::list<CInstrument *>  m_instruments;
+	CRecordedInstrument *recording;
 	void XmlLoadScore(IXMLDOMNode * xml);
 	void XmlLoadInstrument(IXMLDOMNode * xml);
 	void XmlLoadNote(IXMLDOMNode * xml, std::wstring & instrument);
