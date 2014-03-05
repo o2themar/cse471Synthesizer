@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CSynthieView, CWnd)
 	ON_COMMAND(ID_GENERATE_1000HZTONE, &CSynthieView::OnGenerate1000hztone)
 	ON_COMMAND(ID_GENERATE_SYNTHESIZER, &CSynthieView::OnGenerateSynthesizer)
 	ON_COMMAND(ID_FILE_OPENSCORE, &CSynthieView::OnFileOpenscore)
+	ON_COMMAND(ID_FILE_OPENRECRDEDAUDIO, &CSynthieView::OnFileOpenrecrdedaudio)
 END_MESSAGE_MAP()
 
 
@@ -259,4 +260,16 @@ void CSynthieView::OnFileOpenscore()
         return;
 
     m_synthesizer.OpenScore(dlg.GetPathName());
+}
+
+
+void CSynthieView::OnFileOpenrecrdedaudio()
+{
+	static WCHAR BASED_CODE szFilter[] = L"Wave files (*.wav)|*.wav|All Files (*.*)|*.*||";
+
+    CFileDialog dlg(TRUE, L".wav", NULL, 0, szFilter, NULL);
+    if(dlg.DoModal() != IDOK)
+        return;
+
+	m_synthesizer.OpenAudioFile(dlg.GetPathName());
 }

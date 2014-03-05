@@ -17,7 +17,8 @@ BOOL CRecordedInstrument::OpenDocument(LPCTSTR lpszPathName)
 		return FALSE;
 
 	SetSampleRate(m_wavein.SampleRate());
-   
+	m_wavein.Rewind();
+
 	return TRUE;
 }
 
@@ -31,8 +32,9 @@ bool CRecordedInstrument::Generate()
 	short frame[2];
 	ProcessReadFrame(frame);
 
+
 	ProcessWriteFrame(frame);
-	return true;
+	return m_wavein.HasAudio();
 }
 
 void CRecordedInstrument::ProcessReadFrame(short *p_frame)

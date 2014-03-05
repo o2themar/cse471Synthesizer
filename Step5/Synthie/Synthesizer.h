@@ -38,6 +38,8 @@ public:
 
 	void OpenScore(CString & filename);
 
+	void OpenAudioFile(CString &filename);
+
 private:
     int		m_channels;
     double	m_sampleRate;

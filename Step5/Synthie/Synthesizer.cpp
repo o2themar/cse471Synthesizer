@@ -38,6 +38,10 @@ void CSynthesizer::Start(void)
     m_measure = 0;
     m_beat = 0;
     m_time = 0;
+	if(recording != NULL)
+	{
+		recording->Start();
+	}
 }
 
 //! Generate one audio frame
@@ -89,11 +93,6 @@ bool CSynthesizer::Generate(double * frame)
         m_currentNote++;
     }
 
-	if(recording != NULL)
-	{
-		recording->Start();
-	}
-
     //
     // Phase 2: Clear all channels to silence 
     //
@@ -104,9 +103,8 @@ bool CSynthesizer::Generate(double * frame)
     }
 
 	//Do recorded first
-	if(recording != NULL)
+	if(recording != NULL && recording->Generate())
 	{
-		recording->Generate();
 		for(int c=0;  c<GetNumChannels();  c++)
 		{
 			frame[c] += recording->Frame(c);
@@ -355,5 +353,14 @@ void CSynthesizer::XmlLoadNote(IXMLDOMNode * xml, std::wstring & instrument)
 {
 	m_notes.push_back(CNote());
     m_notes.back().XmlLoad(xml, instrument);
+}
+
+void CSynthesizer::OpenAudioFile(CString &filename)
+{
+	if(recording == NULL)
+	{
+		recording = new CRecordedInstrument();
+	}
+	recording->OpenDocument(filename);
 }
 

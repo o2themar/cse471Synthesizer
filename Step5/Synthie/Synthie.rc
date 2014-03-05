@@ -120,6 +120,7 @@ BEGIN
     BEGIN
         MENUITEM "E&xit",                       ID_APP_EXIT
         MENUITEM "Open Score...",               ID_FILE_OPENSCORE
+        MENUITEM "Open Recrded Audio",          ID_FILE_OPENRECRDEDAUDIO
     END
     POPUP "&Generate"
     BEGIN
