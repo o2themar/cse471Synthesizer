@@ -191,6 +191,8 @@ void CSynthesizer::Clear(void)
 {
     m_instruments.clear();
 	m_notes.clear();
+	if(recording != NULL)
+		delete recording;
 }
 
 void CSynthesizer::OpenScore(CString & filename)

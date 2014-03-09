@@ -44,6 +44,7 @@ void CRecordedInstrument::ProcessReadFrame(short *p_frame)
 
 void CRecordedInstrument::ProcessWriteFrame(short *p_frame)
 {
-	m_frame[0] = p_frame[0];
-	m_frame[1] = p_frame[1];
+	m_frame[0] = p_frame[0] / 32768.0;
+	m_frame[1] = p_frame[1] / 32768.0;
 }
+
