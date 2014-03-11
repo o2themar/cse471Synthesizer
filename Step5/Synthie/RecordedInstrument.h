@@ -5,6 +5,7 @@
 #include "audio/DirSoundSource.h"
 #include "audio/WaveformBuffer.h"
 #include "NoiseGate.h"
+#include "RingModulation.h"
 
 class CRecordedInstrument :
 	public CAudioNode
@@ -26,5 +27,6 @@ private:
 	CDirSoundSource   m_wavein;
 
 	CNoiseGate m_noiseGate;
+	CRingModulation m_ringMod;
 };
 

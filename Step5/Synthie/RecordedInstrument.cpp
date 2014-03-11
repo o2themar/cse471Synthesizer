@@ -23,17 +23,27 @@ BOOL CRecordedInstrument::OpenDocument(LPCTSTR lpszPathName)
 	m_noiseGate.SetSampleRate(GetSampleRate());
 	m_noiseGate.SetBPM(GetBPM());
 
+	m_ringMod.SetNode(this);
+	m_ringMod.SetSampleRate(GetSampleRate());
+	m_ringMod.SetBPM(GetBPM());
+
 	return TRUE;
 }
 
 void CRecordedInstrument::Start()
 {
 	m_wavein.Rewind();
+	m_noiseGate.Start();
+	m_ringMod.Start();
 }
 
 bool CRecordedInstrument::Generate()
 {
 	ProcessReadFrame();
+
+	m_ringMod.Generate();
+	m_frame[0] = m_ringMod.Frame(0);
+	m_frame[1] = m_ringMod.Frame(1);
 
 	m_noiseGate.Generate();
 	m_frame[0] = m_noiseGate.Frame(0);
