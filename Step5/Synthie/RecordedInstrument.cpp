@@ -19,6 +19,10 @@ BOOL CRecordedInstrument::OpenDocument(LPCTSTR lpszPathName)
 	SetSampleRate(m_wavein.SampleRate());
 	m_wavein.Rewind();
 
+	m_noiseGate.SetNode(this);
+	m_noiseGate.SetSampleRate(GetSampleRate());
+	m_noiseGate.SetBPM(GetBPM());
+
 	return TRUE;
 }
 
@@ -29,22 +33,29 @@ void CRecordedInstrument::Start()
 
 bool CRecordedInstrument::Generate()
 {
-	short frame[2];
-	ProcessReadFrame(frame);
+	ProcessReadFrame();
 
+	m_noiseGate.Generate();
+	m_frame[0] = m_noiseGate.Frame(0);
+	m_frame[1] = m_noiseGate.Frame(1);
 
-	ProcessWriteFrame(frame);
+	ProcessWriteFrame();
+
 	return m_wavein.HasAudio();
 }
 
-void CRecordedInstrument::ProcessReadFrame(short *p_frame)
+void CRecordedInstrument::ProcessReadFrame()
 {
-   m_wavein.ReadFrame(p_frame);
+	short frame[2];
+   m_wavein.ReadFrame(frame);
+   m_frame[0] = frame[0];
+   m_frame[1] = frame[1];
+
 }
 
-void CRecordedInstrument::ProcessWriteFrame(short *p_frame)
+void CRecordedInstrument::ProcessWriteFrame()
 {
-	m_frame[0] = p_frame[0] / 32768.0;
-	m_frame[1] = p_frame[1] / 32768.0;
+	m_frame[0] /= 32768.0;
+	m_frame[1] /= 32768.0;
 }
 

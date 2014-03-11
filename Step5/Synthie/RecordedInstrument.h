@@ -4,6 +4,7 @@
 #include "audio/DirSoundStream.h"
 #include "audio/DirSoundSource.h"
 #include "audio/WaveformBuffer.h"
+#include "NoiseGate.h"
 
 class CRecordedInstrument :
 	public CAudioNode
@@ -19,9 +20,11 @@ public:
 	BOOL OpenDocument(LPCTSTR lpszPathName);
 
 private:
-	void ProcessReadFrame(short *p_frame);
-	void ProcessWriteFrame(short *p_frame);
+	void ProcessReadFrame();
+	void ProcessWriteFrame();
 
 	CDirSoundSource   m_wavein;
+
+	CNoiseGate m_noiseGate;
 };
 
