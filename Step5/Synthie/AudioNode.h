@@ -1,9 +1,11 @@
 #pragma once
+
 class CAudioNode
 {
 public:
 	CAudioNode(void);
 	virtual ~CAudioNode(void);
+
 public:
     //! Start the node generation
     virtual void Start() = 0;
@@ -26,13 +28,13 @@ public:
 	//! Access one channel of a generated audio frame
     double Frame(int c) {return m_frame[c];}
 
-	void SetBPM(int value) {m_bpm = value;}
-	int GetBPM() { return m_bpm; }
+	// set the bpm
+	void SetBPM(double bpm) { m_bpm = bpm; }
 
 protected:
     double m_sampleRate;
     double m_samplePeriod;
     double m_frame[2];
-	int m_bpm;
+	double m_bpm;
 };
 

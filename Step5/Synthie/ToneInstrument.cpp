@@ -1,11 +1,10 @@
 #include "StdAfx.h"
 #include "ToneInstrument.h"
 #include "Notes.h"
-
+#include "Synthesizer.h"
 
 CToneInstrument::CToneInstrument(void)
 {
-    m_duration = 0.1;
 }
 
 
@@ -15,27 +14,32 @@ CToneInstrument::~CToneInstrument(void)
 
 void CToneInstrument::Start()
 {
+	m_ar.SetBPM(m_bpm);
+	m_ar.SetSampleRate(GetSampleRate());
+	m_ar.Start();
+	m_time = 0;
+
     m_sinewave.SetSampleRate(GetSampleRate());
     m_sinewave.Start();
-    m_time = 0;
-
-    // Tell the AR object it gets its samples from 
+	// Tell the AR object it gets its samples from 
     // the sine wave object.
-    m_ar.SetSource(&m_sinewave);
-    m_ar.SetSampleRate(GetSampleRate());
-	m_ar.SetBPM(GetBPM());
-    m_ar.Start();
+	m_ar.SetSource(&m_sinewave);
 }
+
 
 bool CToneInstrument::Generate()
 {
-    m_sinewave.Generate();
+	// Tell the component to generate an audio sample
+	m_sinewave.Generate();
     bool valid = m_ar.Generate();
 
+	// Read the component's sample and make it our resulting frame.
     m_frame[0] = m_ar.Frame(0);
     m_frame[1] = m_ar.Frame(1);
 
+	// Update time
     m_time += GetSamplePeriod();
+	// We return true until the time reaches the duration.
     return valid;
 }
 
@@ -76,10 +80,7 @@ void CToneInstrument::SetNote(CNote *note)
         {
             SetFreq(NoteToFrequency(value.bstrVal));
         }
-		else if(name == "beat")
-        {
-			SetBPM(value.intVal);
-        }
+
     }
 
 }

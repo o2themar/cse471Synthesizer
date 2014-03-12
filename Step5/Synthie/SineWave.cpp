@@ -2,19 +2,22 @@
 #include "SineWave.h"
 #include <cmath>
 
-CSineWave::CSineWave()
-{
 
-}
-
-void CSineWave::Start()
+CSineWave::CSineWave(void)
 {
-    m_phase = 0;
+	m_phase = 0;
+	m_amp = 0.1;
+	m_freq = 440;
 }
 
 
 CSineWave::~CSineWave(void)
 {
+}
+
+void CSineWave::Start()
+{
+    m_phase = 0;
 }
 
 bool CSineWave::Generate()

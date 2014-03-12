@@ -6,6 +6,7 @@ class CSineWave :
 public:
 	CSineWave(void);
 	virtual ~CSineWave(void);
+
 public:
     //! Start audio generation
     virtual void Start();

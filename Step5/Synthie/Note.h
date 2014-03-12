@@ -1,7 +1,5 @@
 #pragma once
-
 #include <string>
-
 class CNote
 {
 public:
@@ -12,7 +10,6 @@ public:
     double Beat() const {return m_beat;}
     const std::wstring &Instrument() const {return m_instrument;}  
     IXMLDOMNode *Node() {return m_node;}
-
 	void XmlLoad(IXMLDOMNode * xml, std::wstring & instrument);
 	bool operator<(const CNote &b);
 

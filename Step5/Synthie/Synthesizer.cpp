@@ -1,12 +1,12 @@
 #include "StdAfx.h"
 #include "Synthesizer.h"
-#include <cmath>
 #include "ToneInstrument.h"
 #include "xmlhelp.h"
+#include <cmath>
+#include <list>
 #include <algorithm>
 
 using namespace std;
-
 
 CSynthesizer::CSynthesizer(void)
 {
@@ -20,34 +20,27 @@ CSynthesizer::CSynthesizer(void)
 	m_bpm = 120;
 	m_secperbeat = 0.5;
 	m_beatspermeasure = 4;
-	recording = NULL;
 }
 
 
 CSynthesizer::~CSynthesizer(void)
 {
-	if(recording != NULL)
-		delete recording;
 }
 
 //! Start the synthesizer
 void CSynthesizer::Start(void)
 {
-    m_instruments.clear();
+	m_instruments.clear();
     m_currentNote = 0;
     m_measure = 0;
     m_beat = 0;
     m_time = 0;
-	if(recording != NULL)
-	{
-		recording->Start();
-	}
 }
 
 //! Generate one audio frame
 bool CSynthesizer::Generate(double * frame)
 {
-	 //
+	//
     // Phase 1: Determine if any notes need to be played.
     //
 
@@ -77,14 +70,19 @@ bool CSynthesizer::Generate(double * frame)
         {
             instrument = new CToneInstrument();
         }
+		else if(note->Instrument() == L"OddSines")
+        {
+            m_oddsinesfactory.SetNote(note);
+            instrument = m_oddsinesfactory.CreateInstrument();
+        }
 
         // Configure the instrument object
         if(instrument != NULL)
         {
+		   // set the bpm
+			instrument->SetBPM(m_bpm);
             instrument->SetSampleRate(GetSampleRate());
-
 			instrument->SetNote(note);
-
             instrument->Start();
 
             m_instruments.push_back(instrument);
@@ -102,17 +100,8 @@ bool CSynthesizer::Generate(double * frame)
         frame[c] = 0;
     }
 
-	//Do recorded first
-	if(recording != NULL && recording->Generate())
-	{
-		for(int c=0;  c<GetNumChannels();  c++)
-		{
-			frame[c] += recording->Frame(c);
-		}
-	}
-
     //
-    // Phase 3: Play an active instruments
+    // Phase 3: Play any active instruments
     //
 
     //
@@ -154,8 +143,6 @@ bool CSynthesizer::Generate(double * frame)
         node = next;
     }
 
-	
-
 	//
     // Phase 4: Advance the time and beats
     //
@@ -191,13 +178,11 @@ void CSynthesizer::Clear(void)
 {
     m_instruments.clear();
 	m_notes.clear();
-	if(recording != NULL)
-		delete recording;
 }
 
 void CSynthesizer::OpenScore(CString & filename)
 {
-	Clear();
+    Clear();
 
     //
     // Create an XML document
@@ -298,13 +283,12 @@ void CSynthesizer::XmlLoadScore(IXMLDOMNode * xml)
         {
             XmlLoadInstrument(node);
         }
-
     }
 }
 
 void CSynthesizer::XmlLoadInstrument(IXMLDOMNode * xml)
 {
-    wstring instrument = L"";
+	wstring instrument = L"";
 
     // Get a list of all attribute nodes and the
     // length of that list
@@ -348,7 +332,6 @@ void CSynthesizer::XmlLoadInstrument(IXMLDOMNode * xml)
            XmlLoadNote(node, instrument);
         }
     }
-
 }
 
 void CSynthesizer::XmlLoadNote(IXMLDOMNode * xml, std::wstring & instrument)
@@ -356,13 +339,3 @@ void CSynthesizer::XmlLoadNote(IXMLDOMNode * xml, std::wstring & instrument)
 	m_notes.push_back(CNote());
     m_notes.back().XmlLoad(xml, instrument);
 }
-
-void CSynthesizer::OpenAudioFile(CString &filename)
-{
-	if(recording == NULL)
-	{
-		recording = new CRecordedInstrument();
-	}
-	recording->OpenDocument(filename);
-}
-

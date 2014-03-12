@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Note.h"
+#include "xmlhelp.h"
 
 
 CNote::CNote(void)
