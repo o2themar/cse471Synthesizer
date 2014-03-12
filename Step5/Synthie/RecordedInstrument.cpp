@@ -4,6 +4,7 @@
 
 CRecordedInstrument::CRecordedInstrument(void)
 {
+	m_currFrame = 0;
 }
 
 
@@ -35,10 +36,20 @@ void CRecordedInstrument::Start()
 	m_wavein.Rewind();
 	m_noiseGate.Start();
 	m_ringMod.Start();
+	m_currFrame = 0;
 }
 
 bool CRecordedInstrument::Generate()
 {
+	if( !m_wavein.HasAudio() )
+		return false;
+
+	if(++m_currFrame >= m_wavein.NumSampleFrames())
+	{
+		m_currFrame = 0;
+		m_wavein.Rewind();
+	}
+
 	ProcessReadFrame();
 
 	m_ringMod.Generate();
@@ -50,8 +61,7 @@ bool CRecordedInstrument::Generate()
 	m_frame[1] = m_noiseGate.Frame(1);
 
 	ProcessWriteFrame();
-
-	return m_wavein.HasAudio();
+	return true;
 }
 
 void CRecordedInstrument::ProcessReadFrame()

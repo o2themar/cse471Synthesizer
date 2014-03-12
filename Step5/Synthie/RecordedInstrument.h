@@ -28,5 +28,6 @@ private:
 
 	CNoiseGate m_noiseGate;
 	CRingModulation m_ringMod;
+	int m_currFrame;
 };
 
