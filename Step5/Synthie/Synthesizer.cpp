@@ -40,6 +40,7 @@ void CSynthesizer::Start(void)
     m_time = 0;
 	if(recording != NULL)
 	{
+		//recording->SetSampleRate(GetSampleRate());
 		recording->Start();
 	}
 }
