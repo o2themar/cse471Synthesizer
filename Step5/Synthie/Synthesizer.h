@@ -6,6 +6,10 @@
 #include "Instrument.h"
 #include "RecordedInstrument.h"
 #include "Note.h"
+#include "Flanging.h"
+#include "Reverberation.h"
+#include "CompressionLimiting.h"
+#include "Chorus.h"
 
 class CSynthesizer
 {
@@ -61,5 +65,11 @@ private:
 	int m_currentNote;          //!< The current note we are playing
     int m_measure;              //!< The current measure
     double m_beat;              //!< The current beat within the measure
+
+	// Effects
+	CFlanging				m_flanging;
+	CChorus					m_chorus;
+	CReverberation			m_reverberation;
+	CCompressionLimiting	m_compressionlimiting;
 };
 

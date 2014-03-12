@@ -78,6 +78,23 @@ bool CSynthesizer::Generate(double * frame)
         {
             instrument = new CToneInstrument();
         }
+		else if(note->Instrument() == L"Chorus")
+		{
+			m_chorus.SetNote(note);
+		}
+		else if(note->Instrument() == L"Flanging")
+		{
+
+		}
+		else if(note->Instrument() == L"Reverberation")
+		{
+
+		}
+		else if(note->Instrument() == L"CompressionLimiting")
+		{
+
+		}
+
 
         // Configure the instrument object
         if(instrument != NULL)
@@ -142,6 +159,27 @@ bool CSynthesizer::Generate(double * frame)
             {
                 frame[c] += instrument->Frame(c);
             }
+
+			//
+			// Phase 3a Effects:
+			//
+			double cframe[2];
+			m_chorus.Process(frame, cframe);
+
+			double fframe[2];
+			m_flanging.Process(frame, fframe);
+
+			double rframe[2];
+			m_reverberation.Process(frame, rframe);
+
+			double clframe[2];
+			m_compressionlimiting.Process(frame, clframe);
+
+			for(int c=0;  c<2;  c++)
+			{
+				frame[c] = cframe[c] + fframe[c] + rframe[c] + clframe[c];
+			}
+
         }
         else
         {
@@ -154,7 +192,6 @@ bool CSynthesizer::Generate(double * frame)
         // Move to the next instrument in the list
         node = next;
     }
-
 	
 
 	//
