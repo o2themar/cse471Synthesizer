@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<score bpm="120" beatspermeasure="2">
+     <instrument instrument="AddSines">
+          <note measure="1" beat="2" duration="0.33" note="F4" a1=".4" a2=".3" a3=".4" a4=".5" a5=".6" a6=".5" a7=".2" a8=".1"/>
+          <note measure="1" beat="2.33" duration="0.33" note="G4"/>
+          <note measure="1" beat="2.6" duration="0.33" note="A4"/>
+
+          <note measure="2" beat="1" duration="0.5" note="Bb4"/>
+          <note measure="2" beat="1" duration="0.5" note="G4"/>
+          <note measure="2" beat="1" duration="0.5" note="Eb4"/>
+
+          <note measure="3" beat="1" duration="0.5" note="Bb4"/>
+          <note measure="3" beat="1" duration="0.5" note="G4"/>
+          <note measure="3" beat="1" duration="0.5" note="Eb4"/>
+
+          <note measure="4" beat="1" duration="0.5" note="Bb4" a1=".7" a2=".5" a3=".2" a4=".2" a5=".3" a6=".3" a7="0" a8="0"/>
+          <note measure="4" beat="1" duration="0.5" note="D4"/>
+          <note measure="4" beat="1" duration="0.5" note="F4"/>
+
+          <note measure="4" beat="2" duration="0.5" note="Bb4"/>
+          <note measure="4" beat="2" duration="0.5" note="G4"/>
+          <note measure="4" beat="2" duration="0.5" note="Eb4"/>
+
+          <note measure="5" beat="1" duration="0.5" note="Bb4"/>
+          <note measure="5" beat="1" duration="0.5" note="D4"/>
+          <note measure="5" beat="1" duration="0.5" note="F4"/>
+
+          <note measure="6" beat="1" duration="0.5" note="G4"/>
+          <note measure="6" beat="1.5" duration="0.5" note="F#4"/>
+          <note measure="6" beat="2" duration="0.5" note="G4"/>
+          <note measure="6" beat="2.5" duration="0.5" note="G#4"/>
+
+          <note measure="7" beat="1" duration="1" note="A4"/>
+          <note measure="7" beat="2" duration="1" note="F4"/>
+
+          <note measure="8" beat="1" duration="5" note="Bb4" a1=".3" a2=".3" a3=".4" a4="0" a5=".6" a6="0" a7="0" a8="0" b1=".1" b2="0" b3=".1" b4=".1" b5="0" b6=".1" b7=".1" b8="0"/>
+          <note measure="8" beat="1" duration="5" note="F4"/>
+          <note measure="8" beat="1" duration="5" note="D4"/>
+     </instrument>
+</score>
+
