@@ -84,7 +84,7 @@ bool CSynthesizer::Generate(double * frame)
 		}
 		else if(note->Instrument() == L"Flanging")
 		{
-
+			m_flanging.SetNote(note);
 		}
 		else if(note->Instrument() == L"Reverberation")
 		{

@@ -41,6 +41,7 @@ void CChorus::Process(double *frameIn, double *frameOut)
 	delay = 0.025 + sin(0.25 * 2 * M_PI * time) * 0.005;
 
 	wrloc = (wrloc + 2) % QUEUESIZE;
+
 	queue[wrloc] = frameIn[0];
 	queue[wrloc + 1] = frameIn[1];
 
